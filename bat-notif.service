@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/home/may/.cargo/bin/bat-notif
+Restart=always
+
+[Install]
+WantedBy=default.target
