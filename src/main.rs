@@ -19,30 +19,31 @@ struct App {
 }
 
 impl App {
-	fn init() -> App {
-		let mut bats = Bats::init();
+	fn init() -> color_eyre::Result<App> {
+		let mut bats = Bats::init()?;
 		let state = bats.state();
 		let notif = Notif::new();
 
-		App { bats, state, notif }
+		Ok(App { bats, state, notif })
 	}
 
-	fn run(&mut self, config: &Config) {
+	fn run(&mut self, config: &Config) -> color_eyre::Result<()> {
 		let should_term = Arc::new(AtomicBool::new(false));
 		let should_term_ctrlc = Arc::clone(&should_term);
-		let (mut timer, canceller) = cancellable_timer::Timer::new2().unwrap();
+		let (mut timer, canceller) = cancellable_timer::Timer::new2()?;
 
 		ctrlc::set_handler(move || {
 			should_term_ctrlc.store(true, Ordering::Relaxed);
 			let _ = canceller.cancel();
-		})
-		.expect("failed to set ctrlc handler");
+		})?;
 
 		let interval = config.interval();
 		while !should_term.load(Ordering::Relaxed) {
 			self.once(config);
-			timer.sleep(interval).unwrap();
+			timer.sleep(interval)?;
 		}
+
+		Ok(())
 	}
 
 	fn once(&mut self, config: &Config) {
@@ -68,8 +69,12 @@ impl App {
 	}
 }
 
-fn main() {
-	let mut app = App::init();
-	let config = Config::init();
-	app.run(&config);
+fn main() -> color_eyre::Result<()> {
+	color_eyre::install()?;
+
+	let mut app = App::init()?;
+	let config = Config::init()?;
+	app.run(&config)?;
+
+	Ok(())
 }

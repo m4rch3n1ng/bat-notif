@@ -1,6 +1,7 @@
+use color_eyre::eyre::eyre;
 use core::time::Duration;
-use std::fs;
 use serde::Deserialize;
+use std::fs;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
@@ -20,14 +21,17 @@ impl Default for Config {
 }
 
 impl Config {
-	pub fn init() -> Self {
-		let dir = dirs::config_dir().unwrap();
+	pub fn init() -> color_eyre::Result<Self> {
+		let dir = dirs::config_dir().ok_or_else(|| eyre!("couldn't get config_dir"))?;
 		let path = dir.join("bat-notif.json");
 
 		let file = fs::read_to_string(path);
 		match file {
-			Ok(file) => serde_json::from_str::<Config>(&file).unwrap(),
-			Err(_) => Config::default(),
+			Ok(file) => {
+				let config = serde_json::from_str::<Config>(&file)?;
+				Ok(config)
+			}
+			Err(_) => Ok(Config::default()),
 		}
 	}
 

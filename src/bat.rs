@@ -1,4 +1,5 @@
 use battery::{units::ratio::percent, Manager};
+use color_eyre::eyre::ensure;
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum BatState {
@@ -13,16 +14,15 @@ pub struct Bats {
 }
 
 impl Bats {
-	pub fn init() -> Bats {
-		let manager = Manager::new().unwrap();
+	pub fn init() -> color_eyre::Result<Bats> {
+		let manager = Manager::new()?;
 		let bats = manager
-			.batteries()
-			.unwrap()
+			.batteries()?
 			.filter_map(Result::ok)
 			.collect::<Vec<_>>();
-		assert!(!bats.is_empty(), "no batteries detected");
+		ensure!(!bats.is_empty(), "no batteries detected");
 
-		Bats { manager, bats }
+		Ok(Bats { manager, bats })
 	}
 
 	fn update(&mut self) {

@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 battery = "0.7.8"
 cancellable-timer = "0.1.0"
+color-eyre = "0.6.2"
 ctrlc = "3.4.1"
 dirs = "5.0.1"
 notify-rust = "4.10.0"
