@@ -3,6 +3,8 @@ name = "bat-notif"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+battery = "0.7.8"
+cancellable-timer = "0.1.0"
+ctrlc = "3.4.1"
+notify-rust = "4.10.0"
