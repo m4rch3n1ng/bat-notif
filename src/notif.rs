@@ -29,7 +29,7 @@ impl PersistentNotif {
 
 impl Drop for PersistentNotif {
 	fn drop(&mut self) {
-	    self.close();
+		self.close();
 	}
 }
 
@@ -55,7 +55,7 @@ impl SharedNotif {
 
 impl Drop for SharedNotif {
 	fn drop(&mut self) {
-	    self.close();
+		self.close();
 	}
 }
 

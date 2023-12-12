@@ -62,7 +62,7 @@ impl App {
 		}
 
 		let level = self.bats.level();
-		if level < config.low_pct && self.state != BatState::Charging {
+		if level <= config.low_pct && self.state != BatState::Charging {
 			self.notif.low();
 		}
 	}
