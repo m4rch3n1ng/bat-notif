@@ -1,37 +1,16 @@
 use crate::{
 	bat::{BatState, Bats},
+	config::Config,
 	notif::Notif,
 };
-use std::{
-	sync::{
-		atomic::{AtomicBool, Ordering},
-		Arc,
-	},
-	time::Duration,
+use std::sync::{
+	atomic::{AtomicBool, Ordering},
+	Arc,
 };
 
 mod bat;
+mod config;
 mod notif;
-
-struct Config {
-	interval: u64,
-	low_pct: usize,
-}
-
-impl Default for Config {
-	fn default() -> Self {
-		Config {
-			interval: 10,
-			low_pct: 15,
-		}
-	}
-}
-
-impl Config {
-	fn interval(&self) -> Duration {
-		Duration::from_secs(self.interval)
-	}
-}
 
 struct App {
 	bats: Bats,
@@ -91,6 +70,6 @@ impl App {
 
 fn main() {
 	let mut app = App::init();
-	let config = Config::default();
+	let config = Config::init();
 	app.run(&config);
 }
