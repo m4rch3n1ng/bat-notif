@@ -27,6 +27,12 @@ impl PersistentNotif {
 	}
 }
 
+impl Drop for PersistentNotif {
+	fn drop(&mut self) {
+	    self.close();
+	}
+}
+
 #[derive(Default)]
 struct SharedNotif(Option<NotificationHandle>);
 
@@ -44,6 +50,12 @@ impl SharedNotif {
 		if let Some(hnd) = self.0.take() {
 			hnd.close();
 		}
+	}
+}
+
+impl Drop for SharedNotif {
+	fn drop(&mut self) {
+	    self.close();
 	}
 }
 
