@@ -2,6 +2,10 @@
 name = "bat-notif"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.67.1"
+description = "a battery status notification utility"
+readme = "readme.md"
+license = "GPL-3.0-only"
 
 [dependencies]
 battery = "0.7.8"
