@@ -1,5 +1,5 @@
-use battery::{units::ratio::percent, Manager};
 use color_eyre::eyre::ensure;
+use starship_battery::{units::ratio::percent, Battery, Manager};
 use std::{fs, path::PathBuf};
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -11,8 +11,8 @@ pub enum BatState {
 }
 
 pub struct Bats {
-	manager: battery::Manager,
-	bats: Vec<battery::Battery>,
+	manager: Manager,
+	bats: Vec<Battery>,
 	adapter: Option<Adapter>,
 }
 
@@ -46,7 +46,7 @@ impl Bats {
 		if self
 			.bats
 			.iter()
-			.any(|bat| bat.state() == battery::State::Charging)
+			.any(|bat| bat.state() == starship_battery::State::Charging)
 		{
 			BatState::Charging
 		} else if self.online() {
@@ -56,7 +56,7 @@ impl Bats {
 		} else if self
 			.bats
 			.iter()
-			.any(|bat| bat.state() == battery::State::Discharging)
+			.any(|bat| bat.state() == starship_battery::State::Discharging)
 		{
 			BatState::Discharging
 		} else {
@@ -101,7 +101,7 @@ impl Adapter {
 				let r#type = path.join("type");
 				let r#type = fs::read_to_string(r#type).ok()?;
 				if r#type.trim().to_lowercase() != "mains" {
-					return None
+					return None;
 				}
 
 				path.join("online").exists().then_some(path)
