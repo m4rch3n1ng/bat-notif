@@ -1,5 +1,5 @@
 [Service]
-ExecStart=/home/may/.cargo/bin/bat-notif
+ExecStart=%h/.cargo/bin/bat-notif
 Restart=always
 
 [Install]
