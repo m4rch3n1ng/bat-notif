@@ -2,17 +2,16 @@
 name = "bat-notif"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.67.1"
 description = "a battery status notification utility"
 readme = "readme.md"
 license = "GPL-3.0-only"
 
 [dependencies]
 cancellable-timer = "0.1.0"
-color-eyre = { version = "0.6.2", default-features = false }
-ctrlc = "3.4.2"
-dirs = "5.0.1"
-notify-rust = "4.10.0"
-serde = "1.0.196"
-serde_json = "1.0.113"
-starship-battery = "0.8.2"
+color-eyre = { version = "0.6.5", default-features = false }
+ctrlc = "3.4.7"
+dirs = "6.0.0"
+notify-rust = "4.11.7"
+serde = "1.0.219"
+serde_json = "1.0.143"
+starship-battery = "0.10.2"
